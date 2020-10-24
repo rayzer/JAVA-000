@@ -13,9 +13,12 @@ public class HelloXlassLoader extends ClassLoader {
             Object obj = helloXlass.getConstructor().newInstance();
             Method method = helloXlass.getMethod("hello");
             method.invoke(obj);
-        } catch (IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e) {
+        } catch (IllegalAccessException
+                | NoSuchMethodException
+                | InstantiationException
+                | InvocationTargetException e) {
             e.printStackTrace();
-        } 
+        }
     }
 
     @Override
@@ -25,18 +28,18 @@ public class HelloXlassLoader extends ClassLoader {
     }
 
     private byte[] loadXlassFromFile(String fileName) {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
-        byte[] buffer;
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[0];
         int nextValue = 0;
-        try {
+        
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+             ByteArrayOutputStream byteStream = new ByteArrayOutputStream()) {
             while ((nextValue = inputStream.read()) != -1) {
                 byteStream.write(255 - nextValue);
             }
+            buffer = byteStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        buffer = byteStream.toByteArray();
         return buffer;
     }
 }
