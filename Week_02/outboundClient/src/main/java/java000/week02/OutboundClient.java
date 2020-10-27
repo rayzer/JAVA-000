@@ -14,7 +14,7 @@ public class OutboundClient {
     public static void main(String[] args) throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
-            HttpGet httpget = new HttpGet("http://localhost:8802");
+            HttpGet httpget = new HttpGet("http://localhost:8801");
             System.out.println("Executing request " + httpget.getRequestLine());
 
             ResponseHandler<String> responseHandler = response -> {
