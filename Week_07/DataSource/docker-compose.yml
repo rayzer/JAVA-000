@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  master:
+    image: mysql:8.0.22
+    container_name: master
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./config/master:/etc/mysql/conf.d/
+    ports:
+      - 3306:3306
+    restart: always
+
+  slave:
+    image: mysql:8.0.22
+    container_name: slave
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./config/slave:/etc/mysql/conf.d/
+    ports:
+      - 3307:3306
+    restart: always
+
+  mysql_configure:
+    image: mysql:8.0.22
+    container_name: configure
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_DEV=test
+    volumes:
+      - ./config.sh:/tmp/config.sh
+      - ./schema.sql:/tmp/schema.sql
+    command: /bin/bash -x /tmp/config.sh

@@ -1,0 +1,5 @@
+[mysqld]
+server-id=1
+log-bin=mysql-bin
+binlog-format=Row
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
