@@ -1,0 +1,37 @@
+server:
+  port: 8087
+  servlet:
+    context-path: /
+
+spring:
+    datasource:
+        driver-class-name:  com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/account_a?useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: 123456
+    application:
+      name: tcc-demo-serviceA
+    main:
+      allow-bean-definition-overriding: true
+      web-application-type: none
+
+dubbo:
+  scan:
+    base-packages: org.example.service
+  protocol:
+    name: dubbo
+    port: 12345
+  registry:
+    address: zookeeper://localhost:2181
+  metadata-report:
+    address: zookeeper://localhost:2181
+
+mybatis:
+  type-aliases-package: org.example.mapper
+
+logging:
+    level:
+        root: debug
+        org.example.mapper: debug
+    path: "./logs"
+
