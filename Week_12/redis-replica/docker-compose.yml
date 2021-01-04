@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  redis-1:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-1
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-1
+    volumes:
+      - ./conf/redis79.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+
+  redis-2:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-2
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-2
+    volumes:
+      - ./conf/redis80.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6380:6379

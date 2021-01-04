@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  redis-1:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-1
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-1 --port 7000 --cluster-announce-ip "${ip}"
+    volumes:
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 7000:7000
+      - 17000:17000
+
+  redis-2:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-2
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-2 --port 7001 --cluster-announce-ip "${ip}"
+    volumes:
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 7001:7001
+      - 17001:17001
+
+  redis-3:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-3
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-3 --port 7002 --cluster-announce-ip "${ip}"
+    volumes:
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 7002:7002
+      - 17002:17002
+
+  redis-4:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-4
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-4 --port 7003 --cluster-announce-ip "${ip}"
+    volumes:
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 7003:7003
+      - 17003:17003
+
+  redis-5:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-5
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-5 --port 7004 --cluster-announce-ip "${ip}"
+    volumes:
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 7004:7004
+      - 17004:17004
+
+  redis-6:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-6
+    command: redis-server /usr/local/etc/redis/redis.conf --bind redis-6 --port 7005 --cluster-announce-ip "${ip}"
+    volumes:
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 7005:7005
+      - 17005:17005
+
+  redis-cluster-creator:
+    image: "redis:6.0.9-alpine"
+    container_name: redis-cluster-creator
+    entrypoint: [/bin/sh,-c,'echo "yes" | redis-cli --cluster create ${ip}:7000 ${ip}:7001 ${ip}:7002 ${ip}:7003 ${ip}:7004 ${ip}:7005 --cluster-replicas 1']
+    depends_on:
+      - redis-1
+      - redis-2
+      - redis-3
+      - redis-4
+      - redis-5
+      - redis-6
