@@ -58,9 +58,8 @@ public class RedisDemoApplication implements CommandLineRunner {
                 try {
                     left = countDownService.countDown(1);
                     System.out.println(threadName +" count down to " + left);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println(threadName +" failed to count down. ");
+                } catch (CountDownException e) {
+                    System.out.println(threadName +" failed to count down to: " + e.getErrorValue());
                 }
             });
         }

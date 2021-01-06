@@ -2,28 +2,28 @@ package com.ray.lab.redisdemo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RedisCountDownService implements CountDown {
-    public static final String Key = "ray-CountDown";
+    public static final String KEY = "ray-CountDown";
+
     @Autowired
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void init(int count) {
-        redisTemplate.delete(Key);
-        redisTemplate.opsForValue().set(Key, Integer.valueOf(count));
+        this.redisTemplate.delete(KEY);
+        this.redisTemplate.opsForValue().set(KEY, count);
     }
 
     @Override
-    public Long countDown(int count) throws Exception {
-        Long left = redisTemplate.opsForValue().decrement(Key);
-        if (left > 0) {
+    public Long countDown(int count) throws CountDownException {
+        Long left = this.redisTemplate.opsForValue().decrement(KEY);
+        if (left != null && left.longValue() >= 0) {
             return left;
         } else {
-            throw new Exception("Exceed limit! " + left );
+            throw new CountDownException("Exceed limit!", left);
         }
     }
 }
