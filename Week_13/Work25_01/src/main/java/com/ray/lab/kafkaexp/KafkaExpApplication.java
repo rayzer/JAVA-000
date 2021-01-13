@@ -30,7 +30,7 @@ public class KafkaExpApplication implements CommandLineRunner {
     public void sendMessage(Message message) {
         ListenableFuture<SendResult<String, Message>> future = kafkaTemplate.send("ray-lab", message);
 
-        future.addCallback(new ListenableFutureCallback<SendResult<String, Message>>() {
+        future.addCallback(new ListenableFutureCallback<>() {
             @Override
             public void onSuccess(SendResult<String, Message> result) {
                 System.out.println("Sent message=[" + message.getName() + ", " + message.getMsg() + "] with offset=[" + result.getRecordMetadata().offset() + "]");
@@ -45,11 +45,11 @@ public class KafkaExpApplication implements CommandLineRunner {
 
     @KafkaListener(topics = "ray-lab", groupId = "group1", containerFactory = "kafkaListenerContainerFactory")
     public void listenGroup1(Message message) {
-        System.out.println("listenGroup1: Received message in group group1: " + message.toString());
+        System.out.println("listenGroup1: Received message in group group1: " + message);
     }
 
     @KafkaListener(topics = "ray-lab", groupId = "group2", containerFactory = "filteredKafkaListenerContainerFactory")
     public void listenGroup1FilteredMessage(Message message) {
-        System.out.println("listenGroup1FilteredMessage: Received not filtered message in group group2: " + message.toString());
+        System.out.println("listenGroup1FilteredMessage: Received not filtered message in group group2: " + message);
     }
 }

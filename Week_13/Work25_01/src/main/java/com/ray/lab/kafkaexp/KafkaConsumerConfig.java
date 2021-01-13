@@ -43,7 +43,7 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Message> filteredKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setRecordFilterStrategy(record -> record.value().getMsg().startsWith("f")); //start with f will be filter out
+        factory.setRecordFilterStrategy(record -> record.value().getMsg().startsWith("f")); //start with f will be filtered out
         return factory;
     }
 }

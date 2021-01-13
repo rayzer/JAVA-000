@@ -1,8 +1,9 @@
-package com.ray.lab.kafkaexp;
+package com.ray.lab.activemqjms;
 
+import java.io.Serializable;
 import java.util.StringJoiner;
 
-public class Message {
+public class Message implements Serializable {
 
     private String msg;
     private String name;
